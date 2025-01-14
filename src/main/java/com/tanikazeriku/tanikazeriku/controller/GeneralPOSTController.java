@@ -27,4 +27,11 @@ public class GeneralPOSTController {
         log.info("准备返回的数据: {}", key);
         return Result.success(key);
     }
+
+    @PostMapping("/register")
+    public Result hyperionRegisterRequest(@RequestBody HyperionUserDTO user) {
+        log.info("将要注册的用户信息: {}", user);
+        // 注册，加密，等等以及其他
+        return Result.success();
+    }
 }
