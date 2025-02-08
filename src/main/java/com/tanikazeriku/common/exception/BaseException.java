@@ -1,4 +1,4 @@
-package com.tanikazeriku.tanikazeriku.common.exception;
+package com.tanikazeriku.common.exception;
 
 /**
  * 业务异常 基类

@@ -1,7 +1,6 @@
-package com.tanikazeriku.tanikazeriku.pojo.DTO;
+package com.tanikazeriku.pojo.DTO;
 
 import lombok.Data;
-
 import java.io.Serializable;
 
 @Data

@@ -1,4 +1,4 @@
-package com.tanikazeriku.tanikazeriku;
+package com.tanikazeriku;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

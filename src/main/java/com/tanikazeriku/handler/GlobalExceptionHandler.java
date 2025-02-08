@@ -1,8 +1,8 @@
-package com.tanikazeriku.tanikazeriku.handler;
+package com.tanikazeriku.handler;
 
-import com.tanikazeriku.tanikazeriku.common.exception.BaseException;
-import com.tanikazeriku.tanikazeriku.common.request.Result;
-import com.tanikazeriku.tanikazeriku.common.constants.MessageConstant;
+import com.tanikazeriku.common.exception.BaseException;
+import com.tanikazeriku.common.request.Result;
+import com.tanikazeriku.common.constants.MessageConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

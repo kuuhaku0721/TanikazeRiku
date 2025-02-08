@@ -1,9 +1,9 @@
-package com.tanikazeriku.tanikazeriku.controller;
+package com.tanikazeriku.controller;
 
 
-import com.tanikazeriku.tanikazeriku.common.request.Result;
-import com.tanikazeriku.tanikazeriku.pojo.DTO.HyperionKeyDTO;
-import com.tanikazeriku.tanikazeriku.pojo.DTO.HyperionUserDTO;
+import com.tanikazeriku.common.request.Result;
+import com.tanikazeriku.pojo.DTO.HyperionKeyDTO;
+import com.tanikazeriku.pojo.DTO.HyperionUserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 

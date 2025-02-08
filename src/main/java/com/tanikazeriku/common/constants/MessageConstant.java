@@ -1,4 +1,4 @@
-package com.tanikazeriku.tanikazeriku.common.constants;
+package com.tanikazeriku.common.constants;
 
 /**
  * 信息提示常量类

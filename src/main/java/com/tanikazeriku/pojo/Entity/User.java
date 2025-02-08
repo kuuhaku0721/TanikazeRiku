@@ -1,4 +1,4 @@
-package com.tanikazeriku.tanikazeriku.pojo.Entity;
+package com.tanikazeriku.pojo.Entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

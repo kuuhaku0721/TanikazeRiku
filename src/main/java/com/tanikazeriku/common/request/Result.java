@@ -1,4 +1,4 @@
-package com.tanikazeriku.tanikazeriku.common.request;
+package com.tanikazeriku.common.request;
 
 import lombok.Data;
 import java.io.Serializable;
