@@ -1,7 +1,6 @@
-package com.tanikazeriku.controller;
+package com.tanikazeriku.controller.Test;
 
 
-import com.tanikazeriku.pojo.Entity.CharacterCard;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
@@ -9,6 +8,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
 
+/**
+ * 各种各样的测试用的
+ */
 @Slf4j
 public class TestController {
     private String db_url = "jdbc:mysql://localhost:3306/kuudb?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true";
@@ -69,34 +71,34 @@ public class TestController {
     使用的时候，controller用的是serviceImplement，implement实现了service接口，在implement中调用的mapper去获取数据库数据，mapper一一对应到mapper.xml真正执行数据库查询
      */
 
-    public CharacterCard getCharacterbyId(int id) {
-        CharacterCard characterCard = null;
-        try (Connection connection = DriverManager.getConnection(db_url, db_username, db_pasword)) {
-            String sql = "SELECT * FROM kakuya_characters WHERE id = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setInt(1, id);
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        characterCard = new CharacterCard();
-                        characterCard.id = resultSet.getInt("id");
-                        characterCard.name = resultSet.getString("name");
-                        characterCard.image = resultSet.getBytes("image");
-                        characterCard.hp = resultSet.getInt("hp");
-                        characterCard.mp = resultSet.getInt("mp");
-                        characterCard.skill_id = resultSet.getInt("skill_id");
-                        characterCard.destroy = resultSet.getInt("destroy");
-                        characterCard.growth = resultSet.getInt("growth");
-                        characterCard.precision = resultSet.getInt("precision");
-                        characterCard.sustain = resultSet.getInt("sustain");
-                        characterCard.distance = resultSet.getInt("distance");
-                        characterCard.speed = resultSet.getInt("speed");
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return characterCard;
-    }
+//    public CharacterCard getCharacterbyId(int id) {
+//        CharacterCard characterCard = null;
+//        try (Connection connection = DriverManager.getConnection(db_url, db_username, db_pasword)) {
+//            String sql = "SELECT * FROM kakuya_characters WHERE id = ?";
+//            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+//                preparedStatement.setInt(1, id);
+//                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+//                    if (resultSet.next()) {
+//                        characterCard = new CharacterCard();
+//                        characterCard.id = resultSet.getInt("id");
+//                        characterCard.name = resultSet.getString("name");
+//                        characterCard.image = resultSet.getBytes("image");
+//                        characterCard.hp = resultSet.getInt("hp");
+//                        characterCard.mp = resultSet.getInt("mp");
+//                        characterCard.skill_id = resultSet.getInt("skill_id");
+//                        characterCard.destroy = resultSet.getInt("destroy");
+//                        characterCard.growth = resultSet.getInt("growth");
+//                        characterCard.precision = resultSet.getInt("precision");
+//                        characterCard.sustain = resultSet.getInt("sustain");
+//                        characterCard.distance = resultSet.getInt("distance");
+//                        characterCard.speed = resultSet.getInt("speed");
+//                    }
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return characterCard;
+//    }
 
 }
