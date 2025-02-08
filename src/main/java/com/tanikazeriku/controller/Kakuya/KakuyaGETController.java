@@ -35,8 +35,10 @@ public class KakuyaGETController {
     @Autowired
     private ItemService itemService;
 
-    // bug: 带_的全都没有
-
+    /**
+     * 获取全部用户表数据
+     * @return List<KakuyaUserDTO>
+     */
     @GetMapping(value = "/allUser")
     public Result allUsers() {
         List<User> userEntityList = userService.selectAll();
@@ -44,6 +46,11 @@ public class KakuyaGETController {
         log.info("result: {}", userDTOList);
         return Result.success(userDTOList);
     }
+
+    /**
+     * 获取全部角色表数据
+     * @return List<KakuyaCharacterDTO>
+     */
     @GetMapping(value = "/allCharacter")
     public Result allCharacter() {
         List<Characters> charactersEntityList = characterService.selectAll();
@@ -51,6 +58,11 @@ public class KakuyaGETController {
         log.info("result: {}", characterDTOList);
         return Result.success(characterDTOList);
     }
+
+    /**
+     * 获取全部技能表数据
+     * @return List<KakuyaCharacterSkillDTO>
+     */
     @GetMapping(value = "/allCharacterSkill")
     public Result allCharacterSkill() {
         List<CharacterSkill> characterSkillEntityList = characterSkillService.selectAll();
@@ -58,6 +70,11 @@ public class KakuyaGETController {
         log.info("result: {}", characterSkillDTOList);
         return Result.success(characterSkillDTOList);
     }
+
+    /**
+     * 获取全部迷宫表数据
+     * @return List<KakuyaDungeonDTO>
+     */
     @GetMapping(value = "/allDungeon")
     public Result allDungeon() {
         List<Dungeon> dungeonEntityList = dungeonService.selectAll();
@@ -65,6 +82,11 @@ public class KakuyaGETController {
         log.info("result: {}", dungeonDTOList);
         return Result.success(dungeonDTOList);
     }
+
+    /**
+     * 获取全部简单事件表数据
+     * @return List<KakuyaEventDTO>
+     */
     @GetMapping(value = "/allEventEasy")
     public Result allEventEasy() {
         List<Event> eventEasyEntityList = eventService.selectAllEasy();
@@ -72,6 +94,11 @@ public class KakuyaGETController {
         log.info("result: {}", eventEasyDTOList);
         return Result.success(eventEasyDTOList);
     }
+
+    /**
+     * 获取全部普通事件表数据
+     * @return List<KakuyaEventDTO>
+     */
     @GetMapping(value = "/allEventNormal")
     public Result allEventNormal() {
         List<Event> eventNormalEntityList = eventService.selectAllNormal();
@@ -79,6 +106,11 @@ public class KakuyaGETController {
         log.info("result: {}", eventNormalDTOList);
         return Result.success(eventNormalDTOList);
     }
+
+    /**
+     * 获取全部困难事件表数据
+     * @return List<KakuyaEventDTO>
+     */
     @GetMapping(value = "/allEventDifficult")
     public Result allEventDifficult() {
         List<Event> eventDifficultEntityList = eventService.selectAllDifficult();
@@ -86,6 +118,11 @@ public class KakuyaGETController {
         log.info("result: {}", eventDifficultDTOList);
         return Result.success(eventDifficultDTOList);
     }
+
+    /**
+     * 获取全部道具表数据
+     * @return List<KakuyaItemDTO>
+     */
     @GetMapping(value = "/allItem")
     public Result allItem() {
         List<Item> itemEntityList = itemService.selectAll();
@@ -93,4 +130,16 @@ public class KakuyaGETController {
         log.info("result: {}", itemDTOList);
         return Result.success(itemDTOList);
     }
+
+    // TODO: 根据id或者其他的信息获取图片
+//    @GetMapping(value = "/player/{id}", produces = MediaType.IMAGE_PNG_VALUE)
+//    public ResponseEntity<byte[]> getImage(@PathVariable int id) throws SQLException, IOException {
+//        TestController testController = new TestController();
+//        CharacterCard characterCard = testController.getCharacterbyId(id);
+//        log.info("id = {}, name = {}", id, characterCard.name);
+//        if (characterCard != null) {
+//            return ResponseEntity.ok().body(characterCard.image);
+//        }
+//        return ResponseEntity.notFound().build();
+//    }
 }

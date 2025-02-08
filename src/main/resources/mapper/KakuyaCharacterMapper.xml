@@ -4,6 +4,8 @@
 
 <mapper namespace="com.tanikazeriku.mapper.KakuyaCharactersMapper">
 
-    <!--    TODO: 用到再说-->
+    <select id="getAllImages" resultType="com.tanikazeriku.pojo.Entity.ImageWrapper">
+        select image from kakuya_characters;
+    </select>
 
 </mapper>

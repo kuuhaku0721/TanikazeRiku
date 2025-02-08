@@ -1,8 +1,17 @@
 package com.tanikazeriku.controller;
 
+import com.tanikazeriku.pojo.Entity.ImageWrapper;
+import com.tanikazeriku.service.CharacterService;
+import com.tanikazeriku.service.DungeonService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.*;
 
 
 /**
@@ -12,29 +21,31 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("gurei")
 public class GeneralGETController {
+    @Autowired
+    private CharacterService characterService;
+    @Autowired
+    private DungeonService dungeonService;
 
-    // TODO: 保留，之后再说
+    /**
+     * 获取一个随机图片
+     * @return 随机挑一张图片
+     */
+    @GetMapping(value = "/randomImage", produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<byte[]> randomImage()  {
+        List<ImageWrapper> allImages = characterService.getAllImages();
+        List<ImageWrapper> dungeonImages = dungeonService.getAllImages();
+        allImages.addAll(dungeonImages);
 
-//    @GetMapping(value = "/player", produces = MediaType.IMAGE_PNG_VALUE)
-//    public Result kakuyaCharacters() {
-//        TestController testController = new TestController();
-//        CharacterCard characterCard = testController.getCharacterbyId(3);
-//        log.info("准备返回的数据: {}", characterCard.name);
-//        return Result.success(characterCard);
-//    }
-    // TODO: 图片和角色信息分开传输，图片可以直接用
-    // TODO: 有一个问题是，如果实体里面也存图片，实体会过大，占带宽，而且用不上，实体不带图片，那就得重新考虑写法了，有点麻烦
-    // TODO: 似乎是没问题的，实体类没有数据库有的，mybatis会直接忽略
-//    @GetMapping(value = "/player/{id}", produces = MediaType.IMAGE_PNG_VALUE)
-//    public ResponseEntity<byte[]> getImage(@PathVariable int id) throws SQLException, IOException {
-//        TestController testController = new TestController();
-//        CharacterCard characterCard = testController.getCharacterbyId(id);
-//        log.info("id = {}, name = {}", id, characterCard.name);
-//        if (characterCard != null) {
-//            return ResponseEntity.ok().body(characterCard.image);
-//        }
-//        return ResponseEntity.notFound().build();
-//    }
+        Random random = new Random();
+        int index = random.nextInt(allImages.size());
+        ImageWrapper image = allImages.get(index);
+        if (image != null) {
+            return ResponseEntity.ok().body(image.getImage());
+        }
+        log.info("image is null, it`s error, check the method define");
+        return ResponseEntity.notFound().build();
+    }
+
 
 
 }

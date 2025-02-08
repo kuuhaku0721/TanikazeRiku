@@ -11,5 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("persona")
 public class GeneralPOSTController {
 
+    // TODO: 登录和注册放在这里，反正大家都要用
 
 }

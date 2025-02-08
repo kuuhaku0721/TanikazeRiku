@@ -20,7 +20,12 @@ localhost:8888/persona/...   全局post请求
 localhost:8888/gurei/...   全局get请求
 
 针对某个项目，以Hyperion为例
+
 localhost:8888/persona/hyperion/...  Hyperion所属下的post请求
+
 localhost:8888/gurei/hyperion/...    Hyperion所属下的get请求
-example: hyperion下的登录请求为localhost:8888/persona/hyperion/login，相对的，全局通用登录请求为localhost:8888/persona/login
+
+example: hyperion下的登录请求为localhost:8888/persona/hyperion/login
+
+相对的，全局通用登录请求为localhost:8888/persona/login
 

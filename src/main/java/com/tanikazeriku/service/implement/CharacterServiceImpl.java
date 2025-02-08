@@ -1,5 +1,6 @@
 package com.tanikazeriku.service.implement;
 
+import com.tanikazeriku.pojo.Entity.ImageWrapper;
 import com.tanikazeriku.mapper.KakuyaCharactersMapper;
 import com.tanikazeriku.pojo.Entity.Characters;
 import com.tanikazeriku.service.CharacterService;
@@ -16,5 +17,10 @@ public class CharacterServiceImpl implements CharacterService {
     @Override
     public List<Characters> selectAll() {
         return charactersMapper.selectAll();
+    }
+
+    @Override
+    public List<ImageWrapper> getAllImages() {
+        return charactersMapper.getAllImages();
     }
 }
