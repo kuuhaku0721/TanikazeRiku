@@ -17,4 +17,11 @@ public interface DungeonService {
      * @return 图片集合
      */
     List<ImageWrapper> getAllImages();
+
+    /**
+     * 根据id获取对应图片
+     * @param id dungeon id
+     * @return id--image
+     */
+    ImageWrapper getImageById(Integer id);
 }

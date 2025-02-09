@@ -9,7 +9,10 @@ import com.tanikazeriku.pojo.Entity.Characters;
 import com.tanikazeriku.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -131,15 +134,40 @@ public class KakuyaGETController {
         return Result.success(itemDTOList);
     }
 
-    // TODO: 根据id或者其他的信息获取图片
-//    @GetMapping(value = "/player/{id}", produces = MediaType.IMAGE_PNG_VALUE)
-//    public ResponseEntity<byte[]> getImage(@PathVariable int id) throws SQLException, IOException {
-//        TestController testController = new TestController();
-//        CharacterCard characterCard = testController.getCharacterbyId(id);
-//        log.info("id = {}, name = {}", id, characterCard.name);
-//        if (characterCard != null) {
-//            return ResponseEntity.ok().body(characterCard.image);
-//        }
-//        return ResponseEntity.notFound().build();
-//    }
+    /**
+     * 根据id获取图片
+     * @param id dugeon的id
+     * @return 对应的图片
+     */
+    @GetMapping(value = "/image/dungeon/{id}", produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<byte[]> getImageById(@PathVariable int id) {
+        log.info("dungeon id: {}", id);
+        ImageWrapper image = dungeonService.getImageById(id);
+        if (image != null) {
+            return ResponseEntity.ok().body(image.getImage());
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    /**
+     * 根据id获取用户头像icon
+     * @param id 用户id
+     * @return icon
+     */
+    @GetMapping(value = "/image/user/{id}", produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<byte[]> getIconById(@PathVariable int id) {
+        log.info("user id: {}", id);
+        List<User> userList = userService.selectAll();
+        byte[] img = null;
+        for(User user : userList) {
+            if(user.getId() == id) {
+                img = user.getIcon();
+                break;
+            }
+        }
+        if (img != null) {
+            return ResponseEntity.ok().body(img);
+        }
+        return ResponseEntity.notFound().build();
+    }
 }

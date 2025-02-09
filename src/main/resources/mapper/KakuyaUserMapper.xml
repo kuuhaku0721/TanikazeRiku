@@ -21,4 +21,8 @@
 <!--        </where>-->
 <!--    </select>-->
 
+    <select id="getIconById" resultType="com.tanikazeriku.pojo.Entity.ImageWrapper">
+        select icon from kakuya_users where id=#{id};
+    </select>
+
 </mapper>

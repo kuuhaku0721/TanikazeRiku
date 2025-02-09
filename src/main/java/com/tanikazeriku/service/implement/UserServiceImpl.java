@@ -1,6 +1,7 @@
 package com.tanikazeriku.service.implement;
 
 import com.tanikazeriku.mapper.KakuyaUserMapper;
+import com.tanikazeriku.pojo.Entity.ImageWrapper;
 import com.tanikazeriku.pojo.Entity.User;
 import com.tanikazeriku.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,5 +18,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> selectAll() {
         return userMapper.selectAll();
+    }
+
+    @Override
+    public ImageWrapper getIconById(Integer id) {
+        return userMapper.getIconById(id);
     }
 }

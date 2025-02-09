@@ -17,4 +17,12 @@ public interface KakuyaDungeonMapper {
      * @return 图片集合
      */
     List<ImageWrapper> getAllImages();
+
+    /**
+     * 根据id获取图片
+     * @param id dungeon id
+     * @return id--image
+     */
+    @Select("select image from kakuya_dungeon where id=#{id};")
+    ImageWrapper getImageById(Integer id);
 }

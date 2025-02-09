@@ -1,5 +1,7 @@
 package com.tanikazeriku.common.utils;
 
+import com.tanikazeriku.pojo.Entity.UserWrapper;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +64,30 @@ public class GeneralUtils {
             }
         }
         return dtoList;
+    }
+
+    /**
+     * 字符串转User包装类
+     * @param str 服务器接收到的字符串
+     * @return UserWrapper包装类
+     */
+    public static UserWrapper convertToUserWrapper(String str) {
+        UserWrapper user = new UserWrapper();
+        String[] values = str.split("&");
+        for(String pair : values) {
+            String[] parts = pair.split("=");
+            if(parts.length == 2) {
+                String key = parts[0];
+                String value = parts[1];
+                switch (key) {
+                    case "username":
+                        user.setUsername(value);
+                    case "password":
+                        user.setPassword(value);
+                }
+            }
+        }
+        return user;
     }
 
     /**

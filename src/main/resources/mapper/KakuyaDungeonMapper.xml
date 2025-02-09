@@ -7,4 +7,12 @@
     <select id="getAllImages" resultType="com.tanikazeriku.pojo.Entity.ImageWrapper">
         select image from kakuya_dungeon;
     </select>
+
+<!--    <resultMap id="ImageWrapperResultMap" type="com.tanikazeriku.pojo.Entity.ImageWrapper">-->
+<!--        <id property="id" column="id"/>-->
+<!--        <result property="image" column="image"/>-->
+<!--    </resultMap>-->
+<!--    <select id="getImageById" resultType="com.tanikazeriku.pojo.Entity.ImageWrapper">-->
+<!--        select image from kakuya_dungeon where id=##{id};-->
+<!--    </select>-->
 </mapper>

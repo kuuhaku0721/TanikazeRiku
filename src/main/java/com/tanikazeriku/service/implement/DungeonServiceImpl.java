@@ -23,4 +23,9 @@ public class DungeonServiceImpl implements DungeonService {
     public List<ImageWrapper> getAllImages() {
         return dungeonMapper.getAllImages();
     }
+
+    @Override
+    public ImageWrapper getImageById(Integer id) {
+        return dungeonMapper.getImageById(id);
+    }
 }

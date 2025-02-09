@@ -14,7 +14,6 @@ import java.io.Serializable;
 public class KakuyaUserDTO implements Serializable {
     private Integer id;
     private String username;
-    private String password;
     private Integer trophies;
     private String enisDungeon;
     private String zweiDungeon;
