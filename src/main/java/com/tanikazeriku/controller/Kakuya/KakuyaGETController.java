@@ -6,6 +6,7 @@ import com.tanikazeriku.common.utils.GeneralUtils;
 import com.tanikazeriku.pojo.DTO.*;
 import com.tanikazeriku.pojo.Entity.*;
 import com.tanikazeriku.pojo.Entity.Characters;
+import com.tanikazeriku.pojo.VO.DuelModel;
 import com.tanikazeriku.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * 所有 "kakuya" 相关的get请求
@@ -150,6 +153,22 @@ public class KakuyaGETController {
     }
 
     /**
+     * 根据id获取星级图片
+     * @param id dungeon的id
+     * @return dungeon对应的星级图片
+     */
+    @GetMapping(value = "/image/level/{id}", produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<byte[]> getLevelImageById(@PathVariable int id) {
+        // bug: 数据库存储的level_star 带下划线，识别不出来
+        log.info("dungeon id: {}", id);
+        Dungeon dungeon = dungeonService.getLevelImageById(id);
+        if (dungeon != null) {
+            return ResponseEntity.ok().body(dungeon.getLevelStar());
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    /**
      * 根据id获取用户头像icon
      * @param id 用户id
      * @return icon
@@ -170,4 +189,54 @@ public class KakuyaGETController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    /**
+     * 根据难度选一个dungeon决定一场对局
+     * @param level 目标dungeon难度
+     * @return 对局信息
+     */
+    @GetMapping(value = "/duel/{level}")
+    public Result getDuel(@PathVariable int level) {
+        List<Dungeon> dungeonList = dungeonService.selectDungeonByLevel(level);
+        Random random = new Random();
+        int index = random.nextInt(dungeonList.size());
+        Dungeon dungeon = dungeonList.get(index);
+
+        DuelModel duelModel = new DuelModel();
+        duelModel.setId(dungeon.getId());
+        duelModel.setName(dungeon.getName());
+        duelModel.setLevel(dungeon.getLevel());
+
+        ArrayList<Integer> easyEventArray = new ArrayList<>();
+        List<Event> allEasyEvent = eventService.selectAllEasy();
+        for(int i = 0; i < dungeon.getEasyEventCount(); i++) {
+            easyEventArray.add(random.nextInt(allEasyEvent.size()) + 1);
+        }
+        duelModel.setEasyEvent(easyEventArray.toString());
+
+        ArrayList<Integer> normalEventArray = new ArrayList<>();
+        List<Event> allNormalEvent = eventService.selectAllNormal();
+        for (int i = 0; i < dungeon.getNormalEventCount(); i++) {
+            normalEventArray.add(random.nextInt(allNormalEvent.size()) + 1);
+        }
+        duelModel.setNormalEvent(normalEventArray.toString());
+
+        ArrayList<Integer> difficultEventArray = new ArrayList<>();
+        List<Event> allDifficultEvent = eventService.selectAllDifficult();
+        for (int i = 0; i < dungeon.getDifficultEventCount(); i++) {
+            difficultEventArray.add(random.nextInt(allDifficultEvent.size()) + 1);
+        }
+        duelModel.setDifficultEvent(difficultEventArray.toString());
+
+        ArrayList<Integer> itemArray = new ArrayList<>();
+        List<Item> allItem = itemService.selectAll();
+        for (int i = 0; i < dungeon.getItemCardCount(); i++) {
+            itemArray.add(random.nextInt(allItem.size()) + 1);
+        }
+        duelModel.setItemArray(itemArray.toString());
+
+        return Result.success(duelModel);
+    }
+
+
 }

@@ -28,4 +28,14 @@ public class DungeonServiceImpl implements DungeonService {
     public ImageWrapper getImageById(Integer id) {
         return dungeonMapper.getImageById(id);
     }
+
+    @Override
+    public List<Dungeon> selectDungeonByLevel(int level) {
+        return dungeonMapper.selectDungeonByLevel(level);
+    }
+
+    @Override
+    public Dungeon getLevelImageById(Integer id) {
+        return dungeonMapper.getLevelImageById(id);
+    }
 }

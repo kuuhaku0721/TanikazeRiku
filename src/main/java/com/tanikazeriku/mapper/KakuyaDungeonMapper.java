@@ -25,4 +25,20 @@ public interface KakuyaDungeonMapper {
      */
     @Select("select image from kakuya_dungeon where id=#{id};")
     ImageWrapper getImageById(Integer id);
+
+    /**
+     * 提取所有同一 level 的dungeon
+     * @param level dungeon等级
+     * @return 符合条件的所有dungeon
+     */
+    @Select("select * from kakuya_dungeon where level=#{level};")
+    List<Dungeon> selectDungeonByLevel(int level);
+
+    /**
+     * 根据id获取图片
+     * @param id dungeon id
+     * @return id--image
+     */
+    @Select("select * from kakuya_dungeon where id=#{id};")
+    Dungeon getLevelImageById(Integer id);
 }
