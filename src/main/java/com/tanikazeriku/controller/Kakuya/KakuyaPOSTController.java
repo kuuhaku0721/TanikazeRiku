@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-@RequestMapping("persona/kakuya")
+@RequestMapping("persona/kakuya/")
 public class KakuyaPOSTController {
 }

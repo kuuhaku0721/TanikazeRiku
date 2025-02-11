@@ -2,6 +2,7 @@ package com.tanikazeriku.service;
 
 import com.tanikazeriku.pojo.Entity.ImageWrapper;
 import com.tanikazeriku.pojo.Entity.Characters;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -17,4 +18,11 @@ public interface CharacterService {
      * @return 图片集合
      */
     List<ImageWrapper> getAllImages();
+
+    /**
+     * 根据id获取对应image
+     * @param id 需求的id
+     * @return 对应的image
+     */
+    ImageWrapper getImageById(Integer id);
 }

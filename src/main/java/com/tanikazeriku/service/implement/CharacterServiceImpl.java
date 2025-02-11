@@ -23,4 +23,9 @@ public class CharacterServiceImpl implements CharacterService {
     public List<ImageWrapper> getAllImages() {
         return charactersMapper.getAllImages();
     }
+
+    @Override
+    public ImageWrapper getImageById(Integer id) {
+        return charactersMapper.getImageById(id);
+    }
 }

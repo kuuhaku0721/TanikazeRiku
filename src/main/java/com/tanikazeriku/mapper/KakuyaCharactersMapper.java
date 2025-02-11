@@ -17,4 +17,12 @@ public interface KakuyaCharactersMapper {
      * @return 图片集合
      */
     List<ImageWrapper> getAllImages();
+
+    /**
+     * 根据id获取对应image
+     * @param id 需求的id
+     * @return 对应的image
+     */
+    @Select("select image from kakuya_characters where id = #{id};")
+    ImageWrapper getImageById(Integer id);
 }

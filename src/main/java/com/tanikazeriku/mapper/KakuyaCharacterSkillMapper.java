@@ -10,4 +10,12 @@ import java.util.List;
 public interface KakuyaCharacterSkillMapper {
     @Select("select * from kakuya_character_skill;")
     List<CharacterSkill> selectAll();
+
+    /**
+     * 根据id获取对应skill
+     * @param id 需求的id
+     * @return 对应的skill
+     */
+    @Select("select * from kakuya_character_skill where id = #{id};")
+    CharacterSkill getSkillById(Integer id);
 }

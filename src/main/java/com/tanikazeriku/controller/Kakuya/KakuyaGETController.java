@@ -6,6 +6,7 @@ import com.tanikazeriku.common.utils.GeneralUtils;
 import com.tanikazeriku.pojo.DTO.*;
 import com.tanikazeriku.pojo.Entity.*;
 import com.tanikazeriku.pojo.Entity.Characters;
+import com.tanikazeriku.pojo.VO.CharacterModel;
 import com.tanikazeriku.pojo.VO.DuelModel;
 import com.tanikazeriku.service.*;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,7 @@ import java.util.Random;
  */
 @Slf4j
 @RestController
-@RequestMapping("gurei/kakuya")
+@RequestMapping("gurei/kakuya/")
 public class KakuyaGETController {
     @Autowired
     private UserService userService;
@@ -45,7 +46,7 @@ public class KakuyaGETController {
      * 获取全部用户表数据
      * @return List<KakuyaUserDTO>
      */
-    @GetMapping(value = "/allUser")
+    @GetMapping(value = "allUser")
     public Result allUsers() {
         List<User> userEntityList = userService.selectAll();
         List<KakuyaUserDTO> userDTOList = GeneralUtils.convertWithList(userEntityList, KakuyaUserDTO.class);
@@ -57,7 +58,7 @@ public class KakuyaGETController {
      * 获取全部角色表数据
      * @return List<KakuyaCharacterDTO>
      */
-    @GetMapping(value = "/allCharacter")
+    @GetMapping(value = "allCharacter")
     public Result allCharacter() {
         List<Characters> charactersEntityList = characterService.selectAll();
         List<KakuyaCharacterDTO> characterDTOList = GeneralUtils.convertWithList(charactersEntityList, KakuyaCharacterDTO.class);
@@ -69,7 +70,7 @@ public class KakuyaGETController {
      * 获取全部技能表数据
      * @return List<KakuyaCharacterSkillDTO>
      */
-    @GetMapping(value = "/allCharacterSkill")
+    @GetMapping(value = "allCharacterSkill")
     public Result allCharacterSkill() {
         List<CharacterSkill> characterSkillEntityList = characterSkillService.selectAll();
         List<KakuyaCharacterSkillDTO> characterSkillDTOList = GeneralUtils.convertWithList(characterSkillEntityList, KakuyaCharacterSkillDTO.class);
@@ -81,7 +82,7 @@ public class KakuyaGETController {
      * 获取全部迷宫表数据
      * @return List<KakuyaDungeonDTO>
      */
-    @GetMapping(value = "/allDungeon")
+    @GetMapping(value = "allDungeon")
     public Result allDungeon() {
         List<Dungeon> dungeonEntityList = dungeonService.selectAll();
         List<KakuyaDungeonDTO> dungeonDTOList = GeneralUtils.convertWithList(dungeonEntityList, KakuyaDungeonDTO.class);
@@ -93,7 +94,7 @@ public class KakuyaGETController {
      * 获取全部简单事件表数据
      * @return List<KakuyaEventDTO>
      */
-    @GetMapping(value = "/allEventEasy")
+    @GetMapping(value = "allEventEasy")
     public Result allEventEasy() {
         List<Event> eventEasyEntityList = eventService.selectAllEasy();
         List<KakuyaEventDTO> eventEasyDTOList = GeneralUtils.convertWithList(eventEasyEntityList, KakuyaEventDTO.class);
@@ -105,7 +106,7 @@ public class KakuyaGETController {
      * 获取全部普通事件表数据
      * @return List<KakuyaEventDTO>
      */
-    @GetMapping(value = "/allEventNormal")
+    @GetMapping(value = "allEventNormal")
     public Result allEventNormal() {
         List<Event> eventNormalEntityList = eventService.selectAllNormal();
         List<KakuyaEventDTO> eventNormalDTOList = GeneralUtils.convertWithList(eventNormalEntityList, KakuyaEventDTO.class);
@@ -117,7 +118,7 @@ public class KakuyaGETController {
      * 获取全部困难事件表数据
      * @return List<KakuyaEventDTO>
      */
-    @GetMapping(value = "/allEventDifficult")
+    @GetMapping(value = "allEventDifficult")
     public Result allEventDifficult() {
         List<Event> eventDifficultEntityList = eventService.selectAllDifficult();
         List<KakuyaEventDTO> eventDifficultDTOList = GeneralUtils.convertWithList(eventDifficultEntityList, KakuyaEventDTO.class);
@@ -129,7 +130,7 @@ public class KakuyaGETController {
      * 获取全部道具表数据
      * @return List<KakuyaItemDTO>
      */
-    @GetMapping(value = "/allItem")
+    @GetMapping(value = "allItem")
     public Result allItem() {
         List<Item> itemEntityList = itemService.selectAll();
         List<KakuyaItemDTO> itemDTOList = GeneralUtils.convertWithList(itemEntityList, KakuyaItemDTO.class);
@@ -137,65 +138,13 @@ public class KakuyaGETController {
         return Result.success(itemDTOList);
     }
 
-    /**
-     * 根据id获取图片
-     * @param id dugeon的id
-     * @return 对应的图片
-     */
-    @GetMapping(value = "/image/dungeon/{id}", produces = MediaType.IMAGE_PNG_VALUE)
-    public ResponseEntity<byte[]> getImageById(@PathVariable int id) {
-        log.info("dungeon id: {}", id);
-        ImageWrapper image = dungeonService.getImageById(id);
-        if (image != null) {
-            return ResponseEntity.ok().body(image.getImage());
-        }
-        return ResponseEntity.notFound().build();
-    }
-
-    /**
-     * 根据id获取星级图片
-     * @param id dungeon的id
-     * @return dungeon对应的星级图片
-     */
-    @GetMapping(value = "/image/level/{id}", produces = MediaType.IMAGE_PNG_VALUE)
-    public ResponseEntity<byte[]> getLevelImageById(@PathVariable int id) {
-        // bug: 数据库存储的level_star 带下划线，识别不出来
-        log.info("dungeon id: {}", id);
-        Dungeon dungeon = dungeonService.getLevelImageById(id);
-        if (dungeon != null) {
-            return ResponseEntity.ok().body(dungeon.getLevelStar());
-        }
-        return ResponseEntity.notFound().build();
-    }
-
-    /**
-     * 根据id获取用户头像icon
-     * @param id 用户id
-     * @return icon
-     */
-    @GetMapping(value = "/image/user/{id}", produces = MediaType.IMAGE_PNG_VALUE)
-    public ResponseEntity<byte[]> getIconById(@PathVariable int id) {
-        log.info("user id: {}", id);
-        List<User> userList = userService.selectAll();
-        byte[] img = null;
-        for(User user : userList) {
-            if(user.getId() == id) {
-                img = user.getIcon();
-                break;
-            }
-        }
-        if (img != null) {
-            return ResponseEntity.ok().body(img);
-        }
-        return ResponseEntity.notFound().build();
-    }
 
     /**
      * 根据难度选一个dungeon决定一场对局
      * @param level 目标dungeon难度
      * @return 对局信息
      */
-    @GetMapping(value = "/duel/{level}")
+    @GetMapping(value = "duel/{level}")
     public Result getDuel(@PathVariable int level) {
         List<Dungeon> dungeonList = dungeonService.selectDungeonByLevel(level);
         Random random = new Random();
@@ -237,6 +186,64 @@ public class KakuyaGETController {
 
         return Result.success(duelModel);
     }
+
+    /**
+     * 根据level和id获取对应等级的事件信息
+     * @param level 需求的等级
+     * @param id 需求的id
+     * @return 对应的事件信息
+     */
+    @GetMapping("event/{level}/{id}")
+    public Result getEventByLevelAndId(@PathVariable String level, @PathVariable int id) {
+        if(level.equals("easy")) {
+            Event event = eventService.getEasyEventById(id);
+            KakuyaEventDTO eventDTO = GeneralUtils.convertEntityToDTO(event, KakuyaEventDTO.class);
+            return Result.success(eventDTO);
+        } else if(level.equals("normal")) {
+            Event event = eventService.getNormalEventById(id);
+            KakuyaEventDTO eventDTO = GeneralUtils.convertEntityToDTO(event, KakuyaEventDTO.class);
+            return Result.success(eventDTO);
+        } else if(level.equals("difficult")) {
+            Event event = eventService.getDifficultEventById(id);
+            KakuyaEventDTO eventDTO = GeneralUtils.convertEntityToDTO(event, KakuyaEventDTO.class);
+            return Result.success(eventDTO);
+        }
+        return Result.error("输入的信息有误，请检查url参数");
+    }
+
+    /**
+     * 随机获取一个character（with skill）
+     * @return character和skill的组合类
+     */
+    @GetMapping("character")
+    public Result getCharacter() {
+        List<Characters> allCharacters = characterService.selectAll();
+        Random random = new Random();
+        Characters characters = allCharacters.get(random.nextInt(allCharacters.size()));
+
+        CharacterSkill skill = characterSkillService.getSkillById(characters.getSkillId());
+
+        KakuyaCharacterDTO characterDTO = GeneralUtils.convertEntityToDTO(characters, KakuyaCharacterDTO.class);
+        KakuyaCharacterSkillDTO characterSkillDTO = GeneralUtils.convertEntityToDTO(skill, KakuyaCharacterSkillDTO.class);
+        CharacterModel characterModel = new CharacterModel(characterDTO, characterSkillDTO);
+
+        return Result.success(characterModel);
+    }
+
+    /**
+     * 根据id获取对应的item信息
+     * @param id 需求的id
+     * @return 对应的item信息
+     */
+    @GetMapping("item/{id}")
+    public Result getItemById(@PathVariable Integer id) {
+        log.info("item id: {}", id);
+        Item item = itemService.getItemById(id);
+        KakuyaItemDTO itemDTO = GeneralUtils.convertEntityToDTO(item, KakuyaItemDTO.class);
+        return Result.success(itemDTO);
+    }
+
+
 
 
 }

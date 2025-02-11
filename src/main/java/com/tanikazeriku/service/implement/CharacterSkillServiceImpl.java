@@ -17,4 +17,9 @@ public class CharacterSkillServiceImpl implements CharacterSkillService {
     public List<CharacterSkill> selectAll() {
         return characterSkillMapper.selectAll();
     }
+
+    @Override
+    public CharacterSkill getSkillById(Integer id) {
+        return characterSkillMapper.getSkillById(id);
+    }
 }
