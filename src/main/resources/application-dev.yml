@@ -5,4 +5,4 @@ riku:
     port: 3306
     database: kuudb
     username: root
-    password: '002016'
+    password: '123456'
