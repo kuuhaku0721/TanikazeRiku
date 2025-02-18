@@ -243,7 +243,53 @@ public class KakuyaGETController {
         return Result.success(itemDTO);
     }
 
+    /**
+     * 无尽模式 获取一个dungeon，模式限定，获取到的一定是三星dungeon
+     * @return 获取到的dungeon
+     */
+    @GetMapping(value = "duel/infinite")
+    public Result getInfiniteDuel() {
+        List<Dungeon> dungeonList = dungeonService.selectDungeonByLevel(3);
+        Random random = new Random();
+        int index = random.nextInt(dungeonList.size());
+        Dungeon dungeon = dungeonList.get(index);
 
+        DuelModel duelModel = new DuelModel();
+        duelModel.setId(dungeon.getId());
+        duelModel.setName(dungeon.getName());
+        duelModel.setLevel(dungeon.getLevel());
 
+        ArrayList<Integer> itemArray = new ArrayList<>();
+        List<Item> allItem = itemService.selectAll();
+        for (int i = 0; i < dungeon.getItemCardCount(); i++) {
+            itemArray.add(random.nextInt(allItem.size()) + 1);
+        }
+        duelModel.setItemArray(itemArray.toString());
+
+        return Result.success(duelModel);
+    }
+
+    /**
+     * 无尽模式 获取一个事件卡 事件卡无等级限制，随机获取
+     * @return 抽取到的事件卡
+     */
+    @GetMapping("event/infinite")
+    public Result getInfiniteEvent() {
+        Random random = new Random();
+        Event event = null;
+        int rate = random.nextInt(100) + 1;
+        if(rate <= 20) {
+            List<Event> eventList = eventService.selectAllEasy();
+            event = eventList.get(random.nextInt(eventList.size()));
+        } else if(rate <= 50) {
+            List<Event> eventList = eventService.selectAllNormal();
+            event = eventList.get(random.nextInt(eventList.size()));
+        } else {
+            List<Event> eventList = eventService.selectAllDifficult();
+            event = eventList.get(random.nextInt(eventList.size()));
+        }
+        KakuyaEventDTO eventDTO = GeneralUtils.convertEntityToDTO(event, KakuyaEventDTO.class);
+        return Result.success(eventDTO);
+    }
 
 }
