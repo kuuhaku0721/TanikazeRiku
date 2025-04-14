@@ -2,6 +2,7 @@ package com.tanikazeriku.service;
 
 import com.tanikazeriku.pojo.Entity.ImageWrapper;
 import com.tanikazeriku.pojo.Entity.User;
+import com.tanikazeriku.pojo.Entity.UserWrapper;
 
 import java.util.List;
 
@@ -18,4 +19,18 @@ public interface UserService {
      * @return 头像icon
      */
     ImageWrapper getIconById(Integer id);
+
+    /**
+     * 根据用户名找对应用户
+     * @param username 用户名
+     * @return 用户
+     */
+    UserWrapper getUserByUsername(String username);
+
+    /**
+     * 注册用户
+     * @param username 用户名
+     * @param password 密码
+     */
+    void registerUser(String username, String password);
 }

@@ -2,6 +2,7 @@ package com.tanikazeriku.controller;
 
 import com.tanikazeriku.common.request.Result;
 import com.tanikazeriku.common.utils.GeneralUtils;
+import com.tanikazeriku.pojo.DTO.HyperionKeyDTO;
 import com.tanikazeriku.pojo.DTO.KakuyaUserDTO;
 import com.tanikazeriku.pojo.Entity.User;
 import com.tanikazeriku.pojo.Entity.UserWrapper;
@@ -22,23 +23,35 @@ public class GeneralPOSTController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 通用登录接口
+     * @param request 需要传入用户名和密码
+     * @return 是否成功
+     */
     @PostMapping("/login")
     public Result generalLogin(@RequestBody String request) {
+        log.info("登录操作");
         UserWrapper user = GeneralUtils.convertToUserWrapper(request);
-        // TODO: 正式的登录验证操作，这里暂做模拟
-
-        List<User> userList = userService.selectAll();
-        KakuyaUserDTO userDTO = GeneralUtils.convertEntityToDTO(userList.get(0), KakuyaUserDTO.class);
-        log.info("接收到的数据: {}", user);
-        log.info("登录操作，返回的数据: {}", userDTO);
-        return Result.success(userDTO);
+        UserWrapper userWrapper = userService.getUserByUsername(user.getUsername());
+        if(userWrapper.getPassword().equals(user.getPassword())) {
+            HyperionKeyDTO keyDTO = new HyperionKeyDTO();
+            return Result.success(keyDTO);
+        }
+        return Result.success();
     }
 
+    /**
+     * 通用注册接口
+     * @param request 传入用户名和密码
+     * @return 请求成功
+     */
     @PostMapping("/register")
     public Result generalRegister(@RequestBody String request) {
+        log.info("接收到的数据: {}", request);
         UserWrapper user = GeneralUtils.convertToUserWrapper(request);
-        // TODO: 注册操作
-        log.info("接收到的数据: {}", user);
+        user.setPassword(GeneralUtils.md5Encrypt(user.getPassword()));
+        userService.registerUser(user.getUsername(), user.getPassword());
+        log.info("注册逻辑完成");
         return Result.success();
     }
 

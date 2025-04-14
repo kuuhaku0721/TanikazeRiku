@@ -11,16 +11,15 @@ import com.tanikazeriku.service.ValkyrieMediasService;
 import com.tanikazeriku.service.ValkyriesService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @RestController
 @RequestMapping("gurei/hyperion")
+@CrossOrigin(origins = "http://localhost:5173")
 public class HyperionGETController {
 
     @Autowired
@@ -46,7 +45,26 @@ public class HyperionGETController {
         List<HyperionValkyrieDTO> anotherList = GeneralUtils.convertWithList(valkyrieMediasList, HyperionValkyrieDTO.class);
         dtoList.addAll(anotherList);
 
+        log.info("返回值大小: {}", dtoList.size());
+
         return Result.success(dtoList);
+    }
+
+    @GetMapping("/allImageUriPre")
+    public Result getAllImageUriForPre() {
+        List<ValkyrieMedias> valkyrieMediasList = valkyrieMediasService.selectAll();
+
+        List<HyperionValkyrieDTO> dtoList = GeneralUtils.convertWithList(valkyrieMediasList, HyperionValkyrieDTO.class);
+        List<HyperionValkyrieDTO> result = new ArrayList<>();
+        for (int i = 0; i < dtoList.size(); i++) {
+            if(i > 20) {
+                result.add(dtoList.get(i));
+            }
+        }
+
+        log.info("返回值大小: {}", result.size());
+
+        return Result.success(result);
     }
 
     @GetMapping("/valkyrie/{name}")
@@ -70,6 +88,38 @@ public class HyperionGETController {
         }
 
         return Result.success(model);
+    }
+
+    @GetMapping("/valkyrie/all")
+    public Result getAllValkyries() {
+        List<ValkyrieMedias> valkyrieMediasList = valkyrieMediasService.selectAll();
+        List<ValkyrieInfoModel> valkyrieInfoModelList = new ArrayList<>();
+        for (ValkyrieMedias valkyrieMedia: valkyrieMediasList) {
+            ValkyrieInfoModel model = new ValkyrieInfoModel();
+            model.setTitle(valkyrieMedia.getName());
+            model.setSubTitle(valkyrieMedia.getFileName());
+            model.setImageUri(valkyrieMedia.getImageUri());
+            model.setDescription(valkyrieMedia.getDescriptionShort());
+            valkyrieInfoModelList.add(model);
+        }
+        return Result.success(valkyrieInfoModelList);
+    }
+
+    @GetMapping("/valkyrie/allPre")
+    public Result getAllValkyriesForPre() {
+        List<ValkyrieMedias> valkyrieMediasList = valkyrieMediasService.selectAll();
+        List<ValkyrieInfoModel> valkyrieInfoModelList = new ArrayList<>();
+        for (ValkyrieMedias valkyrieMedia: valkyrieMediasList) {
+            if(valkyrieMedia.getId() > 21) {
+                ValkyrieInfoModel model = new ValkyrieInfoModel();
+                model.setTitle(valkyrieMedia.getName());
+                model.setSubTitle(valkyrieMedia.getFileName());
+                model.setImageUri(valkyrieMedia.getImageUri());
+                model.setDescription(valkyrieMedia.getDescriptionShort());
+                valkyrieInfoModelList.add(model);
+            }
+        }
+        return Result.success(valkyrieInfoModelList);
     }
 
 

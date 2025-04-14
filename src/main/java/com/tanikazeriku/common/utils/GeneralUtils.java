@@ -3,8 +3,11 @@ package com.tanikazeriku.common.utils;
 import com.tanikazeriku.pojo.Entity.UserWrapper;
 
 import java.lang.reflect.Field;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * 通用工具类
@@ -111,5 +114,71 @@ public class GeneralUtils {
             }
         }
         return result.toString();
+    }
+
+    /**
+     * 生成指定长度的随机字符串
+     * @param length 要生成的随机字符串的长度
+     * @return 生成的随机字符串
+     */
+    public static String generateRandomString(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(characters.length());
+            sb.append(characters.charAt(index));
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * 将形如 "A:XXX;B:XXX;C:XXX;D:XXX;" 的字符串转换为 KeyValuePair 对象数组
+     * @param input 输入的字符串
+     * @return KeyValuePair 对象数组
+     */
+    public static List<KVPair> parseStringToKeyValuePair(String input) {
+        String[] pairs = input.split(";");
+        List<KVPair> pairList = new ArrayList<>();
+        for (String pair : pairs) {
+            if (!pair.isEmpty()) {
+                String[] keyValue = pair.split(":", 2);
+                if (keyValue.length == 2) {
+                    String key = keyValue[0];
+                    String value = keyValue[1];
+                    pairList.add(new KVPair(key, value));
+                }
+            }
+        }
+        return pairList;
+    }
+
+    /**
+     * 对输入的明文字符串进行 MD5 加密
+     * @param plainText 明文字符串
+     * @return 加密后的十六进制字符串，如果加密过程出错则返回 null
+     */
+    public static String md5Encrypt(String plainText) {
+        try {
+            // 获取 MD5 算法的 MessageDigest 实例
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            // 将明文字符串转换为字节数组并进行加密
+            byte[] digest = md.digest(plainText.getBytes());
+
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : digest) {
+                String hex = Integer.toHexString(0xFF & b);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
